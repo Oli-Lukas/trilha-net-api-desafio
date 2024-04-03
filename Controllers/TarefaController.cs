@@ -92,8 +92,15 @@ namespace TrilhaApiDesafio.Controllers
             if (tarefa.Data == DateTime.MinValue)
                 return BadRequest(new { Erro = "A data da tarefa não pode ser vazia" });
 
-            // TODO: Atualizar as informações da variável tarefaBanco com a tarefa recebida via parâmetro
-            // TODO: Atualizar a variável tarefaBanco no EF e salvar as mudanças (save changes)
+            // [X] TODO: Atualizar as informações da variável tarefaBanco com a tarefa recebida via parâmetro
+            tarefaBanco.Titulo    = string.IsNullOrEmpty(tarefa.Titulo)    ? tarefaBanco.Titulo : tarefa.Titulo;
+            tarefaBanco.Descricao = string.IsNullOrEmpty(tarefa.Descricao) ? tarefaBanco.Descricao : tarefa.Descricao;
+            tarefaBanco.Status    = (tarefaBanco.Status == tarefa.Status)  ? tarefaBanco.Status : tarefa.Status;
+
+            // [X] TODO: Atualizar a variável tarefaBanco no EF e salvar as mudanças (save changes)
+            _context.Tarefas.Update(tarefaBanco);
+            _context.SaveChanges();
+
             return Ok();
         }
 
